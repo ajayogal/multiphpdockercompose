@@ -14,5 +14,6 @@
 !dockerfiles/nginx/
 !dockerfiles/nginx/conf.d
 !dockerfiles/nginx/conf.d/default.conf
+!dockerfiles/nginx/conf.d/project8.conf
 !dockerfiles/php8
 !dockerfiles/php8/**
