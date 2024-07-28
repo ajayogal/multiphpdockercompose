@@ -1,0 +1,18 @@
+# Ignore everything
+*
+
+# Allow specific files and directories
+!.gitignore
+!README.md
+!docker-compose.yml
+!instructions.txt
+!dockerfiles/
+
+# Allow all files inside specific directories
+!dockerfiles/php5
+!dockerfiles/php5/**
+!dockerfiles/nginx/
+!dockerfiles/nginx/conf.d
+!dockerfiles/nginx/conf.d/default.conf
+!dockerfiles/php8
+!dockerfiles/php8/**

@@ -1,0 +1,85 @@
+#--------------------------------------------------------------------------
+# commands to know running services
+#--------------------------------------------------------------------------
+#
+netstat -an | grep LISTEN 
+netstat -anp tcp | grep LISTEN
+nc -zv localhost 80
+sudo lsof -i -P -n | grep LISTEN
+
+
+
+#--------------------------------------------------------------------------
+# brew php service start | stop | restart
+#--------------------------------------------------------------------------
+#
+brew services stop nginx
+brew services stop php@5.6
+brew services stop php@8.3
+
+#--------------------------------------------------------------------------
+# brew #ngnix commands
+#--------------------------------------------------------------------------
+#
+sudo nginx -t
+sudo nginx 
+sudo nginx -s stop
+sudo nginx -s reload
+
+
+#--------------------------------------------------------------------------
+# check IP of the machine
+#--------------------------------------------------------------------------
+#
+ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}'
+
+#--------------------------------------------------------------------------
+# mysql running on 192.168.64.1 to connect docker running on 192.168.64.2
+#--------------------------------------------------------------------------
+#
+-- Check current password policy settings
+SHOW VARIABLES LIKE 'validate_password%';
+
+-- Temporarily lower password requirements
+SET GLOBAL validate_password.policy = LOW;
+SET GLOBAL validate_password.length = 6;
+
+-- Create the user with the desired password
+CREATE USER 'root'@'192.168.64.2' IDENTIFIED BY 'test123@@';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.64.2' WITH GRANT OPTION;
+ALTER USER 'root'@'192.168.64.2' IDENTIFIED WITH mysql_native_password BY 'test123@@';
+FLUSH PRIVILEGES;
+
+-- Revert to original password policy settings
+SET GLOBAL validate_password.policy = MEDIUM;  -- Adjust according to original value
+SET GLOBAL validate_password.length = 8;       -- Adjust according to original value
+
+#--------------------------------------------------------------------------
+# mysql connect inside docker container running on 192.168.64.2
+#--------------------------------------------------------------------------
+#
+docker exec -it teamstub_php5-fpm bash
+mysql -h 192.168.64.1 -u root -p
+
+#--------------------------------------------------------------------------
+# mysql Set Character Set Explicitly
+#--------------------------------------------------------------------------
+#
+-- Check MySQL Server Character Set 
+mysql -u root -p
+SHOW VARIABLES LIKE 'character_set%';
+
+-- open my.cnf file location /opt/homebrew/etc/my.cnf
+[mysqld]
+bind-address = 0.0.0.0
+
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+
+ssl-ca=/opt/homebrew/var/mysql/ca-cert.pem
+ssl-cert=/opt/homebrew/var/mysql/server-cert.pem
+ssl-key=/opt/homebrew/var/mysql/server-key.pem
+
+-- restart mysql 
+brew services restart mysql
+

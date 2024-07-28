@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: amok_nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - ./websites/:/var/www/
+      - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - php5-fpm
+  php5-fpm:
+    build:
+      context: ./dockerfiles/php5/
+    container_name: amok_php5-fpm
+    volumes:
+      - ./websites:/var/www/
+    environment:
+      - DB_HOST=192.168.64.1
+      - DB_DATABASE=tig_teamstub
+      - DB_USERNAME=root
+      - DB_PASSWORD=test123@@
