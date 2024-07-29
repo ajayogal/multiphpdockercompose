@@ -27,4 +27,8 @@ RUN chown -R www-data:www-data /var/www \
 
 # Expose port 9000 and start PHP-FPM server
 EXPOSE 9080
+
+# Configure PHP-FPM to listen on the correct port
+RUN echo "listen = 0.0.0.0:9080" >> /usr/local/etc/php-fpm.d/zz-docker.conf
+
 CMD ["php-fpm"]

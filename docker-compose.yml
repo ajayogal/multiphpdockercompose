@@ -11,6 +11,7 @@ services:
       - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d
     depends_on:
       - php5-fpm
+      - php8-fpm
   php5-fpm:
     build:
       context: ./dockerfiles/php5/
@@ -22,3 +23,9 @@ services:
       - DB_DATABASE=tig_teamstub
       - DB_USERNAME=root
       - DB_PASSWORD=test123@@
+  php8-fpm:
+    build:
+      context: ./dockerfiles/php8/
+    container_name: amok_php8-fpm
+    volumes:
+      - ./websites:/var/www/
