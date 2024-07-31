@@ -5,8 +5,10 @@ services:
     image: nginx:alpine
     container_name: amok_nginx
     ports:
-      - "8081:80"
+      - "8001:80"
+      - "8002:443"
     volumes:
+      - ./dockerfiles/certs:/etc/nginx/certs
       - ./websites/:/var/www/
       - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d
     depends_on:
